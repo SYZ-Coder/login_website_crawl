@@ -1,0 +1,215 @@
+load("@rules_rust//rust:rust.bzl", "rust_binary", "rust_library")
+
+# 配置模块
+rust_library(
+    name = "config_lib",
+    srcs = ["src/config.rs"],
+    deps = [
+        "@com_github_serde//:serde",
+        "@com_github_serde_json//:serde_json",
+        "@com_github_log//:log",
+    ],
+)
+
+# 数据库模块
+rust_library(
+    name = "database_lib",
+    srcs = ["src/database.rs"],
+    deps = [
+        "@com_github_serde//:serde",
+        "@com_github_serde_json//:serde_json",
+        "@com_github_log//:log",
+    ],
+)
+
+# 爬虫库
+rust_library(
+    name = "crawler_lib",
+    srcs = ["src/crawler.rs"],
+    deps = [
+        "@com_github_spider_rs_spider//:spider",
+        "@com_github_reqwest//:reqwest",
+        "@com_github_serde//:serde",
+        "@com_github_serde_json//:serde_json",
+        "@com_github_tokio//:tokio",
+        "@com_github_url//:url",
+        "@com_github_log//:log",
+        "@com_github_env_logger//:env_logger",
+    ],
+)
+
+# 登录模块
+rust_library(
+    name = "login_lib",
+    srcs = ["src/login.rs"],
+    deps = [
+        "@com_github_reqwest//:reqwest",
+        "@com_github_serde//:serde",
+        "@com_github_serde_json//:serde_json",
+        "@com_github_tokio//:tokio",
+    ],
+)
+
+# 主程序
+rust_binary(
+    name = "main",
+    srcs = ["src/main.rs"],
+    deps = [
+        ":crawler_lib",
+        ":login_lib",
+    ],
+)
+
+# 配置模块
+rust_library(
+    name = "config_lib",
+    srcs = ["src/config.rs"],
+    deps = [
+        "@com_github_serde//:serde",
+        "@com_github_serde_json//:serde_json",
+        "@com_github_log//:log",
+    ],
+)
+
+# 导出模块
+rust_library(
+    name = "export_lib",
+    srcs = ["src/export.rs"],
+    deps = [
+        "@com_github_serde//:serde",
+        "@com_github_serde_json//:serde_json",
+        "@com_github_log//:log",
+        "@com_github_csv//:csv",
+    ],
+)
+
+# 调度模块
+rust_library(
+    name = "scheduler_lib",
+    srcs = ["src/scheduler.rs"],
+    deps = [
+        "@com_github_serde//:serde",
+        "@com_github_serde_json//:serde_json",
+        "@com_github_log//:log",
+        "@com_github_chrono//:chrono",
+        "@com_github_cron//:cron",
+    ],
+)
+
+# 分析模块
+rust_library(
+    name = "analysis_lib",
+    srcs = ["src/analysis.rs"],
+    deps = [
+        "@com_github_serde//:serde",
+        "@com_github_serde_json//:serde_json",
+        "@com_github_log//:log",
+        "@com_github_regex//:regex",
+    ],
+)
+
+# 规则模块
+rust_library(
+    name = "rules_lib",
+    srcs = ["src/rules.rs"],
+    deps = [
+        "@com_github_serde//:serde",
+        "@com_github_serde_json//:serde_json",
+        "@com_github_log//:log",
+        "@com_github_regex//:regex",
+    ],
+)
+
+# 监控模块
+rust_library(
+    name = "monitor_lib",
+    srcs = ["src/monitor.rs"],
+    deps = [
+        "@com_github_serde//:serde",
+        "@com_github_serde_json//:serde_json",
+        "@com_github_log//:log",
+    ],
+)
+
+# 过滤模块
+rust_library(
+    name = "filter_lib",
+    srcs = ["src/filter.rs"],
+    deps = [
+        "@com_github_serde//:serde",
+        "@com_github_serde_json//:serde_json",
+        "@com_github_log//:log",
+        "@com_github_regex//:regex",
+    ],
+)
+
+# 验证模块
+rust_library(
+    name = "validation_lib",
+    srcs = ["src/validation.rs"],
+    deps = [
+        "@com_github_serde//:serde",
+        "@com_github_serde_json//:serde_json",
+        "@com_github_log//:log",
+        "@com_github_regex//:regex",
+    ],
+)
+
+# 报告模块
+rust_library(
+    name = "report_lib",
+    srcs = ["src/report.rs"],
+    deps = [
+        "@com_github_serde//:serde",
+        "@com_github_serde_json//:serde_json",
+        "@com_github_log//:log",
+        "@com_github_chrono//:chrono",
+    ],
+)
+
+# Web服务器
+rust_binary(
+    name = "web_server",
+    srcs = ["src/web_server.rs"],
+    deps = [
+        ":database_lib",
+        ":config_lib",
+        "@com_github_serde//:serde",
+        "@com_github_serde_json//:serde_json",
+        "@com_github_log//:log",
+        "@com_github_warp//:warp",
+    ],
+)
+
+# 综合测试
+rust_binary(
+    name = "comprehensive_test",
+    test = True,
+    srcs = ["tests/comprehensive_test.rs"],
+    deps = [
+        ":crawler_lib",
+        ":login_lib",
+        ":database_lib",
+        ":config_lib",
+        ":export_lib",
+        ":scheduler_lib",
+        ":analysis_lib",
+        ":rules_lib",
+        ":monitor_lib",
+        ":filter_lib",
+        ":validation_lib",
+        ":report_lib",
+    ],
+)
+
+# 集成测试
+rust_binary(
+    name = "integration_test",
+    test = True,
+    srcs = ["tests/integration_test.rs"],
+    deps = [
+        ":crawler_lib",
+        ":login_lib",
+        ":database_lib",
+    ],
+)
